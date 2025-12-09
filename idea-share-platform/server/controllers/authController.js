@@ -40,11 +40,15 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Check if user already exists
-    const userExists = await User.findOne({ email: email.toLowerCase() });
+    // Check if user already exists - normalized email
+    const normalizedEmail = email.toLowerCase().trim();
+    const userExists = await User.findOne({ email: normalizedEmail });
+    
     if (userExists) {
-      console.log('User already exists:', email);
-      return res.status(400).json({ message: 'User already exists with this email' });
+      console.log('User already exists with email:', normalizedEmail);
+      return res.status(409).json({ 
+        message: 'This email is already registered. Please login instead.' 
+      });
     }
 
     // Hash the password
@@ -54,21 +58,21 @@ const registerUser = async (req, res) => {
     // Create user
     const user = await User.create({
       name: name.trim(),
-      email: email.toLowerCase().trim(),
+      email: normalizedEmail,
       password: hashedPassword,
     });
 
-    console.log('User created:', user._id);
-    if (user) {
-      res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        token: generateToken(user._id),
-      });
-    }
+    console.log('User created successfully:', user._id);
+    
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+    });
   } catch (error) {
     console.error('Register Error:', error.message);
+    console.error('Error details:', error);
     res.status(500).json({ message: 'Server error, try again later' });
   }
 };

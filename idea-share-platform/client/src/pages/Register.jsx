@@ -93,7 +93,17 @@ const Register = () => {
     } catch (error) {
       console.error('Register error:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Registration failed';
-      toast.error(errorMessage);
+      
+      // Better error messages
+      if (errorMessage.includes('already exists')) {
+        toast.error('Email already registered! Please login instead.');
+        // Optional: Auto-redirect to login after 2 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        toast.error(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -111,6 +121,12 @@ const Register = () => {
           <div className="auth-card">
             <h2>Create Account</h2>
             <p className="auth-subtitle">Join the idea sharing platform</p>
+
+            {/* Helper message */}
+            <div className="info-box">
+              <p>📧 New user? Create your account here</p>
+              <p>Already registered? <Link to="/login">Login here</Link></p>
+            </div>
 
             <form onSubmit={handleSubmit}>
               <div className="form-group">
