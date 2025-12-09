@@ -10,6 +10,9 @@ const {
 } = require('../controllers/ideaController');
 const { protect } = require('../middleware/authMiddleware');
 
+// Specific routes pehle likho - protect ke sath
+router.get('/my/all', protect, getMyIdeas);
+
 // Public routes - bina login ke access kar sakte hain
 router.get('/', getAllIdeas);
 router.get('/:id', getIdeaById);
@@ -18,6 +21,5 @@ router.get('/:id', getIdeaById);
 router.post('/', protect, createIdea);
 router.put('/:id', protect, updateIdea);
 router.delete('/:id', protect, deleteIdea);
-router.get('/my/all', protect, getMyIdeas);
 
 module.exports = router;
