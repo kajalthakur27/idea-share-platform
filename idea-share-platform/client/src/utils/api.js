@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// Backend ka URL - yaha apna backend URL dalo
-const API_URL = 'http://localhost:5000/api';
+
+const API_URL = import.meta.env.REACT_APP_API_URL || "https://idea-share-platform-1.onrender.com/api";
+
+console.log('API_URL:', API_URL);
 
 // Axios instance banate hain - isme default config set kar sakte hain
 const api = axios.create({

@@ -137,18 +137,55 @@
   flex: 1;
   background: #f8fafc;
   border: 2px solid #e2e8f0;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
   color: #475569;
   transition: all 0.3s;
   font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-action:hover {
   background: #f1f5f9;
   border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.btn-action.liked {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.btn-action.liked:hover {
+  background: #fee2e2;
+  border-color: #f87171;
+}
+
+.action-icon {
+  font-size: 1.1rem;
+}
+
+.action-text {
+  font-weight: 600;
+  flex: 1;
+  text-align: left;
+}
+
+.action-count {
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  min-width: 28px;
+  text-align: center;
 }
 
 .btn-action.liked {

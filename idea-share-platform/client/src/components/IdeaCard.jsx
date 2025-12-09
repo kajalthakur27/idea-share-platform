@@ -53,14 +53,14 @@ const IdeaCard = ({ idea, onDelete, onEdit, currentUserId }) => {
               onClick={() => onEdit(idea._id)}
               title="Edit"
             >
-              ✏️
+              
             </button>
             <button
               className="btn-icon btn-delete"
               onClick={() => onDelete(idea._id)}
               title="Delete"
             >
-              🗑️
+              
             </button>
           </div>
         )}
@@ -91,15 +91,21 @@ const IdeaCard = ({ idea, onDelete, onEdit, currentUserId }) => {
         <button
           className={`btn-action ${isLiked ? 'liked' : ''}`}
           onClick={handleLike}
+          title="Like this idea"
         >
-          {isLiked ? '❤️' : '🤍'} {likes}
+          <span className="action-icon">❤️</span>
+          <span className="action-text">Like</span>
+          <span className="action-count">{likes}</span>
         </button>
 
         <button
           className="btn-action"
           onClick={() => setShowComments(!showComments)}
+          title="View comments"
         >
-          💬 {idea.commentsCount || 0}
+          <span className="action-icon">💬</span>
+          <span className="action-text">Comment</span>
+          <span className="action-count">{idea.commentsCount || 0}</span>
         </button>
       </div>
 

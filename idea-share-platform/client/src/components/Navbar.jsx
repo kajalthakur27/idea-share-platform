@@ -17,21 +17,21 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/dashboard" className="navbar-logo">
-          💡 IdeaShare
+           IdeaShare
         </Link>
 
         {/* Navigation Links */}
         <div className="navbar-links">
           <Link to="/dashboard" className="nav-link">Home</Link>
-          <Link to="/dashboard" className="nav-link">Explore</Link>
+          <Link to="/explore" className="nav-link">Explore</Link>
           <Link to="/add-idea" className="nav-btn-add">
-            ➕ Add Idea
+             Add Idea
           </Link>
         </div>
 
         {/* User Info & Logout */}
         <div className="navbar-user">
-          <span className="user-name">👤 {user?.name}</span>
+          <span className="user-name"> {user?.name}</span>
           <button onClick={handleLogout} className="btn-logout">
             Logout
           </button>

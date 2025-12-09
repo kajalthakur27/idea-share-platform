@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Explore from './pages/Explore';
 import AddEditIdea from './pages/AddEditIdea';
 
 import './App.css';
@@ -65,6 +66,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <ProtectedRoute>
+                  <Explore />
                 </ProtectedRoute>
               }
             />

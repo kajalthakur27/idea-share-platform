@@ -64,16 +64,16 @@ const Dashboard = () => {
               className={filter === 'all' ? 'active' : ''}
               onClick={() => setFilter('all')}
             >
-              🌟 All Ideas
+               All Ideas
             </li>
             <li 
               className={filter === 'my' ? 'active' : ''}
               onClick={() => setFilter('my')}
             >
-              💡 My Ideas
+               My Ideas
             </li>
             <li onClick={() => navigate('/add-idea')}>
-              ➕ Add New Idea
+               Add New Idea
             </li>
           </ul>
         </div>
@@ -116,12 +116,12 @@ const Dashboard = () => {
         {/* Right Sidebar */}
         <div className="right-sidebar">
           <div className="sidebar-card">
-            <h3>🔥 Trending</h3>
+            <h3> Trending</h3>
             <p>Top ideas coming soon...</p>
           </div>
           
           <div className="sidebar-card">
-            <h3>👥 Top Contributors</h3>
+            <h3>Top Contributors</h3>
             <p>Leaderboard coming soon...</p>
           </div>
         </div>
