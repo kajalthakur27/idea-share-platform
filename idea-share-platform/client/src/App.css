@@ -1,0 +1,40 @@
+/* Global App Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* Loader Screen */
+.loader-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  color: #64748b;
+  background: #f8fafc;
+}
+
+/* Toast Customization */
+.Toastify__toast {
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+}
+
+.Toastify__toast--success {
+  background: #10b981;
+}
+
+.Toastify__toast--error {
+  background: #ef4444;
+}
+
+.Toastify__toast--info {
+  background: #3b82f6;
+}
