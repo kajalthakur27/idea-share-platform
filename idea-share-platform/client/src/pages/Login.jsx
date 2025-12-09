@@ -52,10 +52,26 @@ const Login = () => {
       
       console.log('Login successful, response:', data);
       
+      // Validate response data
+      if (!data || !data._id || !data.token) {
+        toast.error('Invalid response from server');
+        return;
+      }
+
       // Login successful - token aur user data save karo
-      login({ _id: data._id, name: data.name, email: data.email }, data.token);
-      toast.success('Login successful!');
-      navigate('/dashboard');
+      const loginSuccess = login({ 
+        _id: data._id, 
+        name: data.name, 
+        email: data.email 
+      }, data.token);
+
+      if (loginSuccess) {
+        toast.success('Login successful!');
+        setFormData({ email: '', password: '' }); // Form reset karo
+        navigate('/dashboard');
+      } else {
+        toast.error('Failed to save login data');
+      }
     } catch (error) {
       console.error('Login error:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Login failed';

@@ -65,10 +65,31 @@ const Register = () => {
 
       console.log('Registration successful, response:', data);
 
+      // Validate response data
+      if (!data || !data._id || !data.token) {
+        toast.error('Invalid response from server');
+        return;
+      }
+
       // Registration successful - automatically login kar do
-      login({ _id: data._id, name: data.name, email: data.email }, data.token);
-      toast.success('Registration successful!');
-      navigate('/dashboard');
+      const loginSuccess = login({ 
+        _id: data._id, 
+        name: data.name, 
+        email: data.email 
+      }, data.token);
+
+      if (loginSuccess) {
+        toast.success('Registration successful!');
+        setFormData({ 
+          name: '', 
+          email: '', 
+          password: '', 
+          confirmPassword: '' 
+        }); // Form reset karo
+        navigate('/dashboard');
+      } else {
+        toast.error('Failed to save registration data');
+      }
     } catch (error) {
       console.error('Register error:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Registration failed';
