@@ -17,15 +17,34 @@ const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
     console.log('Register attempt:', { name, email });
 
+    // Validate all fields
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Please provide all fields' });
+      console.log('Missing fields:', { name: !name, email: !email, password: !password });
+      return res.status(400).json({ 
+        message: 'Please provide all fields (name, email, password)' 
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ 
+        message: 'Please provide a valid email address' 
+      });
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return res.status(400).json({ 
+        message: 'Password must be at least 6 characters long' 
+      });
     }
 
     // Check if user already exists
     const userExists = await User.findOne({ email: email.toLowerCase() });
     if (userExists) {
       console.log('User already exists:', email);
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'User already exists with this email' });
     }
 
     // Hash the password
@@ -34,8 +53,8 @@ const registerUser = async (req, res) => {
 
     // Create user
     const user = await User.create({
-      name,
-      email: email.toLowerCase(),
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       password: hashedPassword,
     });
 
@@ -62,11 +81,23 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     console.log('Login attempt for:', email);
 
+    // Validate fields
     if (!email || !password) {
-      return res.status(400).json({ message: 'Please provide email and password' });
+      console.log('Missing login fields');
+      return res.status(400).json({ 
+        message: 'Please provide both email and password' 
+      });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ 
+        message: 'Please provide a valid email address' 
+      });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       console.log('User not found:', email);
       return res.status(401).json({ message: 'Invalid email or password' });
@@ -75,7 +106,7 @@ const loginUser = async (req, res) => {
     console.log('User found, checking password...');
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log('Password mismatch');
+      console.log('Password mismatch for user:', email);
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 

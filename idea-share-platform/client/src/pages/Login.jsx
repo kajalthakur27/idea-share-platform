@@ -30,17 +30,36 @@ const Login = () => {
       return;
     }
 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
     setLoading(true);
     try {
+      // Validation - data check kar lo
+      const loginData = {
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password
+      };
+
+      console.log('Login attempt with:', loginData);
+      
       // API call karke login karo
-      const data = await loginUser(formData);
+      const data = await loginUser(loginData);
+      
+      console.log('Login successful, response:', data);
       
       // Login successful - token aur user data save karo
       login({ _id: data._id, name: data.name, email: data.email }, data.token);
       toast.success('Login successful!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      console.error('Login error:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Login failed';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

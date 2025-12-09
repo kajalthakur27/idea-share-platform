@@ -30,6 +30,19 @@ const Register = () => {
       return;
     }
 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    // Password length check
+    if (formData.password.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
+
     // Password match check karo
     if (formData.password !== formData.confirmPassword) {
       toast.error('Passwords do not match');
@@ -38,19 +51,28 @@ const Register = () => {
 
     setLoading(true);
     try {
+      // Register data prepare karo
+      const registerData = {
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password
+      };
+
+      console.log('Register attempt with:', { name: registerData.name, email: registerData.email });
+
       // Register API call
-      const data = await registerUser({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
+      const data = await registerUser(registerData);
+
+      console.log('Registration successful, response:', data);
 
       // Registration successful - automatically login kar do
       login({ _id: data._id, name: data.name, email: data.email }, data.token);
       toast.success('Registration successful!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Registration failed');
+      console.error('Register error:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Registration failed';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
